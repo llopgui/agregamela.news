@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Perfil" %} | {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">{% trans "Perfil de Usuario" %}</h2>
+        <a href="{% url 'usuarios:editar_perfil' %}" class="btn btn-primary">
+            {% trans "Editar Perfil" %}
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="{{ usuario.perfil.imagen.url }}" alt="{% trans 'Foto de perfil' %}" class="img-fluid rounded-circle mb-3" style="max-width: 200px;">
+                <h4>{{ usuario.username }}</h4>
+                <p class="text-muted">{{ usuario.perfil.nickname }}</p>
+                {% if usuario.perfil.verificado %}
+                    <span class="badge bg-primary">{% trans "Verificado" %}</span>
+                {% endif %}
+                {% if usuario.perfil.premium %}
+                    <span class="badge bg-warning">{% trans "Premium" %}</span>
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <h5>{% trans "Información Personal" %}</h5>
+                <hr>
+                <p><strong>{% trans "Email:" %}</strong> {{ usuario.email }}</p>
+                <p><strong>{% trans "Biografía:" %}</strong> {{ usuario.perfil.bio|default:_("Sin biografía") }}</p>
+                <p><strong>{% trans "Sitio Web:" %}</strong>
+                    {% if usuario.perfil.sitio_web %}
+                        <a href="{{ usuario.perfil.sitio_web }}" target="_blank">{{ usuario.perfil.sitio_web }}</a>
+                    {% else %}
+                        {% trans "No especificado" %}
+                    {% endif %}
+                </p>
+                <h5 class="mt-4">{% trans "Estadísticas" %}</h5>
+                <hr>
+                <div class="row">
+                    <div class="col-6 col-md-4">
+                        <div class="card text-center mb-3">
+                            <div class="card-body">
+                                <h6>{% trans "Karma" %}</h6>
+                                <h4>{{ usuario.perfil.karma }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="card text-center mb-3">
+                            <div class="card-body">
+                                <h6>{% trans "Posts" %}</h6>
+                                <h4>{{ usuario.perfil.posts }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="card text-center mb-3">
+                            <div class="card-body">
+                                <h6>{% trans "Comentarios" %}</h6>
+                                <h4>{{ usuario.perfil.comentarios }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

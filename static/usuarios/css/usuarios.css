@@ -1,0 +1,29 @@
+/* Estilos generales */
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Estilos para la imagen de perfil */
+.profile-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Estilos para las badges */
+.badge {
+    font-size: 0.8em;
+    padding: 0.4em 0.8em;
+}
+
+/* Estilos para las cards de estadísticas */
+.stats-card {
+    transition: transform 0.2s;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+}
+

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block title %}{% trans "Editar Perfil" %} | {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="mb-0">{% trans "Editar Perfil" %}</h2>
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>{% trans "Información de Usuario" %}</h4>
+                    {{ user_form|crispy }}
+                </div>
+                <div class="col-md-6">
+                    <h4>{% trans "Información de Perfil" %}</h4>
+                    {{ profile_form|crispy }}
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">{% trans "Guardar Cambios" %}</button>
+                <a href="{% url 'usuarios:perfil' %}" class="btn btn-secondary">{% trans "Cancelar" %}</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

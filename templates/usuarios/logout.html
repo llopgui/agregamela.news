@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<form action="{% url 'usuarios:logout' %}" method="post" class="list-group-item list-group-item-action text-danger">
+    {% csrf_token %}
+    <button type="submit" style="background: none; border: none; color: inherit; padding: 0;">
+        <i class="fas fa-sign-out-alt me-2"></i>{% trans "Cerrar Sesión" %}
+    </button>
+</form>
+{% endblock %}
+

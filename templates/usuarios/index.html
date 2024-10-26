@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Usuarios" %} | {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">{% trans "Menú de Usuario" %}</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{% url 'usuarios:perfil' %}" class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'perfil' %}active{% endif %}">
+                        <i class="fas fa-user me-2"></i>{% trans "Mi Perfil" %}
+                    </a>
+                    <a href="{% url 'usuarios:editar_perfil' %}" class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'editar_perfil' %}active{% endif %}">
+                        <i class="fas fa-edit me-2"></i>{% trans "Editar Perfil" %}
+                    </a>
+                    <a href="{% url 'usuarios:password_change' %}" class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'password_change' %}active{% endif %}">
+                        <i class="fas fa-key me-2"></i>{% trans "Cambiar Contraseña" %}
+                    </a>
+                    <!-- Enlace de Cierre de Sesión Modificado a Formulario -->
+                    <form action="{% url 'usuarios:logout' %}" method="post" class="list-group-item list-group-item-action text-danger">
+                        {% csrf_token %}
+                        <button type="submit" style="background: none; border: none; color: inherit; padding: 0;">
+                            <i class="fas fa-sign-out-alt me-2"></i>{% trans "Cerrar Sesión" %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Estadísticas del Usuario -->
+            {% if user.is_authenticated %}
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">{% trans "Mis Estadísticas" %}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>{% trans "Karma" %}</span>
+                        <span class="badge bg-primary">{{ user.perfil.karma }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>{% trans "Posts" %}</span>
+                        <span class="badge bg-info">{{ user.perfil.posts }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>{% trans "Comentarios" %}</span>
+                        <span class="badge bg-success">{{ user.perfil.comentarios }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>{% trans "Guardados" %}</span>
+                        <span class="badge bg-warning">{{ user.perfil.guardados }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Contenido Principal -->
+        <div class="col-md-9">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% block usuario_content %}
+            <div class="card">
+                <div class="card-body">
+                    <h2>{% trans "Bienvenido al Panel de Usuario" %}</h2>
+                    <p class="lead">{% trans "Aquí puedes gestionar tu perfil y ver tus estadísticas." %}</p>
+                    
+                    {% if not user.is_authenticated %}
+                    <div class="alert alert-info">
+                        {% trans "Por favor" %} <a href="{% url 'usuarios:login' %}">{% trans "inicia sesión" %}</a> 
+                        {% trans "o" %} <a href="{% url 'usuarios:registro' %}">{% trans "regístrate" %}</a> 
+                        {% trans "para acceder a todas las funcionalidades." %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'usuarios/js/usuarios.js' %}"></script>
+{% endblock %}
+
