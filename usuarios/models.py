@@ -3,6 +3,23 @@ from django.contrib.auth.models import User
 from uuid import uuid4
 from typing import Any
 
+def perfil_image_upload_to(instance: 'Perfil', filename: str) -> str:
+    """
+    Genera la ruta de almacenamiento para la imagen de perfil del usuario.
+
+    Args:
+        instance: Instancia del modelo Perfil.
+        filename: Nombre original del archivo subido.
+
+    Returns:
+        str: Ruta donde se almacenará la imagen.
+    """
+    # Extrae la extensión del archivo
+    extension = filename.split('.')[-1]
+    # Genera la ruta usando el UUID del usuario
+    return f'perfiles/{instance.id}/img/avatar/{instance.usuario.username}.{extension}'
+
+
 # Modelo de perfil de usuario
 class Perfil(models.Model):
     """
@@ -55,7 +72,7 @@ class Perfil(models.Model):
         help_text="URL de Instagram del usuario."
     )
     imagen: models.ImageField = models.ImageField(
-        upload_to='usuarios/img/perfiles/',
+        upload_to=perfil_image_upload_to,
         default='usuarios/img/perfiles/default/imagen_de_perfil_predeterminada.png',
         help_text="Imagen de perfil del usuario."
     )
@@ -260,3 +277,5 @@ class Perfil(models.Model):
             self.email = self.usuario.email
             
         super().save(*args, **kwargs)
+
+

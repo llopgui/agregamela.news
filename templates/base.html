@@ -26,7 +26,12 @@
                         <a class="nav-link" href="{% url 'usuarios:editar_perfil' %}">{% trans "Editar Perfil" %}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'usuarios:logout' %}">{% trans "Cerrar Sesión" %}</a>
+                        <form action="{% url 'usuarios:logout' %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link" style="background: none; border: none; color: inherit; padding: 0;">
+                                {% trans "Cerrar Sesión" %}
+                            </button>
+                        </form>
                     </li>
                 </ul>
             </div>

@@ -20,8 +20,7 @@ urlpatterns: list = [
     path(
         'logout/',
         auth_views.LogoutView.as_view(
-            template_name='usuarios/logout.html',
-            next_page='usuarios:login'  # Redirige a la página de login después del logout
+            next_page='usuarios:login'
         ),
         name='logout'
     ),
